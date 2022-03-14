@@ -45,18 +45,18 @@ async function login(parent, args, context, info) {
 }
 
 async function post(parent, args, context, info) {
-    const { userId } = context;
-  
-    const newLink = await context.prisma.link.create({
-      data: {
-        url: args.url,
-        description: args.description,
-        postedBy: { connect: { id: userId } },
-      }
-    })
-    context.pubsub.publish("NEW_LINK", newLink)
+  const { userId } = context;
 
-    return newLink
+  const newLink = await context.prisma.link.create({
+    data: {
+      url: args.url,
+      description: args.description,
+      postedBy: { connect: { id: userId } },
+    }
+  })
+  context.pubsub.publish("NEW_LINK", newLink)
+
+  return newLink
 }
 
 async function vote(parent, args, context, info) {
